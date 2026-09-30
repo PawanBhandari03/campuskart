@@ -10,3 +10,7 @@ const transport = nodemailer.createTransport({
 export async function sendVerification(to: string, link: string) {
   await transport.sendMail({ from: "CampusKart <no-reply@campuskart.example>", to, subject: "Verify your email", text: link });
 }
+
+export async function sendWithRetry(to: string, link: string) {
+  for (let i = 0; i < 3; i++) { try { return await sendVerification(to, link); } catch {} }
+}
